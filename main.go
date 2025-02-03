@@ -95,7 +95,7 @@ func checkCertificate(filePath string, expiringDays int) CertificateReport {
 		return CertificateReport{FileName: filePath, Status: "Invalid"}
 	}
 
-	daysToExpire := int(cert.NotAfter.Sub(time.Now()).Hours() / 24)
+	daysToExpire := int(time.Until(cert.NotAfter).Hours() / 24)
 	status := "Valid"
 	if time.Now().After(cert.NotAfter) {
 		status = "Expired"
