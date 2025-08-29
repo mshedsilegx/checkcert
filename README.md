@@ -40,5 +40,6 @@ This command will check all certificates in the `/path/to/certs` directory and f
 ./checkcert -dir /path/to/certs -days 60 -header
 ```
 
-### 4. Check certificates with a .crt extension in the current directory, that will expire in less than 60 days
+### 4. Check certificates with a custom extension
+This will check all certs  in the current directory, with a .crt extension, that will expire in less than 60 days
 ```checkcert -dir . -ext crt -days 60```
