@@ -4,6 +4,8 @@
 
 This command-line tool, written in Go, checks the expiration status of X.509 certificates in PEM format. The primary objective is to provide a simple, efficient, and reliable way to monitor certificate expiration. By scanning either a single file or an entire directory, the tool helps prevent service disruptions caused by expired certificates.
 
+checkcert is a certificate expiration check utility. It will recurse all sub directories and alert if any certificate is exceeding the renewal threshold specified.
+
 The application is designed with performance in mind, using concurrency to check multiple certificates in parallel, which makes it fast and efficient for large numbers of certificates.
 
 ## Command-Line Syntax
@@ -37,3 +39,6 @@ This command will check all certificates in the `/path/to/certs` directory and f
 ```bash
 ./checkcert -dir /path/to/certs -days 60 -header
 ```
+
+### 4. Check certificates with a .crt extension in the current directory, that will expire in less than 60 days
+```checkcert -dir . -ext crt -days 60```
