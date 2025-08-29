@@ -42,4 +42,6 @@ This command will check all certificates in the `/path/to/certs` directory and f
 
 ### 4. Check certificates with a custom extension
 This will check all certs  in the current directory, with a .crt extension, that will expire in less than 60 days
-```checkcert -dir . -ext crt -days 60```
+```bash
+checkcert -dir . -ext crt -days 60
+```
