@@ -6,13 +6,16 @@ import (
 	"text/tabwriter"
 )
 
-func displayReport(reports []CertificateReport, displayHeader bool) {
+func displayReport(reports []CertificateReport, displayHeader bool) error {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 3, ' ', 0)
-	defer w.Flush()
 
 	if displayHeader {
-		fmt.Fprintln(w, "Object Name (PEM File)\tCommon Name (CN)\tIssuer\tStatus\tExpiration\tDays\tError")
-		fmt.Fprintln(w, "----------------------\t----------------\t------\t------\t----------\t----\t-----")
+		if _, err := fmt.Fprintln(w, "Object Name (PEM File)\tCommon Name (CN)\tIssuer\tStatus\tExpiration\tDays\tError"); err != nil {
+			return err
+		}
+		if _, err := fmt.Fprintln(w, "----------------------\t----------------\t------\t------\t----------\t----\t-----"); err != nil {
+			return err
+		}
 	}
 
 	for _, report := range reports {
@@ -26,7 +29,7 @@ func displayReport(reports []CertificateReport, displayHeader bool) {
 			expirationDate = report.Expiration.Format("2006-01-02")
 		}
 
-		fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\t%d\t%s\n",
+		if _, err := fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\t%d\t%s\n",
 			report.FileName,
 			report.CommonName,
 			report.Issuer,
@@ -34,6 +37,10 @@ func displayReport(reports []CertificateReport, displayHeader bool) {
 			expirationDate,
 			report.DaysToExpire,
 			errMsg,
-		)
+		); err != nil {
+			return err
+		}
 	}
+
+	return w.Flush()
 }

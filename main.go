@@ -46,7 +46,9 @@ func run(cfg *Config) error {
 	}
 
 	reports := processFiles(files, cfg.Days)
-	displayReport(reports, cfg.ShowHeader)
+	if err := displayReport(reports, cfg.ShowHeader); err != nil {
+		return err
+	}
 
 	return nil
 }
