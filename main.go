@@ -10,6 +10,8 @@ import (
 // Compile-time version variable
 var version string
 
+// main is the entry point of the application. It initializes the configuration,
+// parses command-line flags, and executes the certificate check process.
 func main() {
 	cfg := &Config{}
 	setupFlags(cfg)
@@ -32,6 +34,8 @@ func main() {
 	}
 }
 
+// run coordinates the file discovery and processing based on the provided configuration.
+// It determines whether to process a single file or a directory.
 func run(cfg *Config) error {
 	var files []string
 	var err error
@@ -53,6 +57,8 @@ func run(cfg *Config) error {
 	return nil
 }
 
+// processFiles handles the concurrent processing of multiple certificate files.
+// It uses a WaitGroup and a channel to collect reports from goroutines.
 func processFiles(files []string, days int) []CertificateReport {
 	var wg sync.WaitGroup
 	reportsChan := make(chan CertificateReport, len(files))

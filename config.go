@@ -15,15 +15,17 @@ type Config struct {
 	ShowHeader  bool
 }
 
+// setupFlags configures the command-line flags for the application.
 func setupFlags(cfg *Config) {
-	flag.StringVar(&cfg.Dir, "dir", "", "Directory containing PEM files")
-	flag.StringVar(&cfg.File, "file", "", "Single PEM file")
-	flag.StringVar(&cfg.Ext, "ext", ".pem", "PEM file extension to search for")
-	flag.IntVar(&cfg.Days, "days", 30, "Number of days to check for expiry")
-	flag.BoolVar(&cfg.ShowVersion, "version", false, "Display application version")
-	flag.BoolVar(&cfg.ShowHeader, "header", false, "Display report header")
+	flag.StringVar(&cfg.Dir, "dir", "", "Directory containing PEM files to scan")
+	flag.StringVar(&cfg.File, "file", "", "Single PEM file to check")
+	flag.StringVar(&cfg.Ext, "ext", ".pem", "Filter for PEM file extension (e.g., .crt, .pem)")
+	flag.IntVar(&cfg.Days, "days", 30, "Number of days before expiration to flag as 'Expiring'")
+	flag.BoolVar(&cfg.ShowVersion, "version", false, "Display the application version and exit")
+	flag.BoolVar(&cfg.ShowHeader, "header", false, "Include a header in the output report")
 }
 
+// validateConfig ensures that the provided configuration is valid.
 func validateConfig(cfg *Config) error {
 	if !cfg.ShowVersion && cfg.Dir == "" && cfg.File == "" {
 		return fmt.Errorf("either a directory or a file must be specified")
